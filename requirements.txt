@@ -1,14 +1,4 @@
-Flask
-Flask-API
-Flask-Migrate
-Flask-Script
-Flask-RESTful
 Flask-SQLAlchemy==2.5.1
-ipdb
-SQLAlchemy
-
-
-
 uWSGI==2.0.17.1
 psycopg2==2.8.6
 alembic==1.5.4
@@ -65,6 +55,5 @@ zipp==3.4.0
 pylint==2.6.0
 pylint-flask==0.6
 pylint-flask-sqlalchemy==0.2.0
-raven==6.10.0
-newrelic==6.2.0.156
 blinker==1.4
+gunicorn
