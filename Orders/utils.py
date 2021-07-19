@@ -34,54 +34,43 @@ def fetch_order_details(order_id):
     return True, order_details
 
 
-def schedule_orders():
-    from Orders import slot1, slot2, slot3, slot4
-    allowed_vehicles = {
-        "truck" : 1,
-        "bike": 3,
-        "scooter": 2
-    }
-    import ipdb;ipdb.set_trace()
-
-    response = {'msg': '', 'success': '', 'data': {}}
+def update_vid_on_orders(orders, vehicle):
     data = []
-    try:
-        slot_4_orders = db.session.query(Order).filter(Order.slot==4).filter(Order.is_scheduled=='f').all()
-    except Exception as err:
-        raise Exception("Unable to fetch slot 4 orders dur to error:{}".format(err))
-
-    total_amount = get_total_weight_of_slot(slot_4_orders)
-    if total_amount and allowed_vehicles.get('truck'):
-        truck = db.session.query(Vehicle).filter(Vehicle.orders_attached=='{}').filter(
-            Vehicle.vtype=='truck').first()
-        if truck:
-            allowed_vehicles['truck'] = 0
-            update_vid_on_orders(slot_4_orders, truck.vid, vtype, data)
-            data = update_response(orders)
-        else:
-            print("No orders can be served in slot 4 today.")
-
-
-
-    try:
-        slot_4_orders = db.session.query(Order).filter(Order.slot==4).filter(Order.is_scheduled=='f').all()
-    except Exception as err:
-        raise Exception("Unable to fetch slot 4 orders dur to error:{}".format(err))
-
-
-def update_vid_on_orders(orders, vid, vtype, data):
-    order_data = {'vehicle_type': None, 'delivery_partner_id': vid, 'list_order_ids_assigned':[]}
+    order_data = {
+                    'vehicle_type': vehicle.vtype,
+                    'delivery_partner_name': vehicle.partner_name,
+                    'list_order_ids_assigned': []
+                 }
     for order in orders:
         order = Order.query.filter_by(order_id=order.order_id).first()
-        order.vid = vid
+        order.vid = vehicle.vid
         order.is_scheduled = True
         try:
             db.session.commit()
-            order_data['vehicle_type'] = vtype
-            order_data['list_order_ids_assigned'].extend(order.order_id)
-            data.append(order_data)
+            order_data['list_order_ids_assigned'].append(order.order_id)
         except Exception as err:
             raise Exception("Error occurred while scheduling the orders. ERROR:{}".format(err))
+    data.append(order_data)
+    return data
+
+
+def update_vid_on_slot_orders(order, vehicle, data):
+    order_data = {
+                    'vehicle_type': vehicle.vtype,
+                    'delivery_partner_name': vehicle.partner_name,
+                    'list_order_ids_assigned': []
+                 }
+    for order in orders:
+        order = Order.query.filter_by(order_id=order.order_id).first()
+        order.vid = vehicle.vid
+        order.is_scheduled = True
+        try:
+            # db.session.commit()
+            order_data['list_order_ids_assigned'].append(order.order_id)
+        except Exception as err:
+            raise Exception("Error occurred while scheduling the orders. ERROR:{}".format(err))
+    data.append(order_data)
+    return data
 
 
 def get_total_weight_of_slot(orders):

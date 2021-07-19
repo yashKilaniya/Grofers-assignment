@@ -1,6 +1,7 @@
 from order_app import db
 from sqlalchemy.dialects.postgresql import ARRAY
 
+
 class Order(db.Model):
     """
     Model for storing Order data
@@ -52,15 +53,15 @@ class Vehicle(db.Model):
         self.orders_attached = []
 
 
-class DeliveryPartner(db.Model):
-    """
-    Model for storing Delivery partner data
-    """
-    __tablename__ = 'delivery_partners'
-
-    partner_id = db.Column(db.String(128), primary_key=True)
-    partner_name = db.Column(db.String(128))
-    vid = db.Column(db.String(128))
+# class DeliveryPartner(db.Model):
+#     """
+#     Model for storing Delivery partner data
+#     """
+#     __tablename__ = 'delivery_partners'
+#
+#     partner_id = db.Column(db.String(128), primary_key=True)
+#     partner_name = db.Column(db.String(128))
+#     vid = db.Column(db.String(128))
 
 
 class Slot:
