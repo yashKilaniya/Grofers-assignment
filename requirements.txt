@@ -57,3 +57,4 @@ pylint-flask==0.6
 pylint-flask-sqlalchemy==0.2.0
 blinker==1.4
 gunicorn
+psycopg2-binary

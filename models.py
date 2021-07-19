@@ -79,9 +79,9 @@ class Slot:
         return self.remaining_weight
 
 
-class gg(db.Model):
-    name = db.Column(db.String,  primary_key=True)
-    orders = db.Column(ARRAY(db.String))
-
-    def __init__(self, orders):
-        self.orders = orders
+# class gg(db.Model):
+#     name = db.Column(db.String,  primary_key=True)
+#     orders = db.Column(ARRAY(db.String))
+#
+#     def __init__(self, orders):
+#         self.orders = orders
