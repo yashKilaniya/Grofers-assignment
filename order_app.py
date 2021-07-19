@@ -17,7 +17,7 @@ def create_app():
 
 app = create_app()
 
-prod_uri = 'postgres://ynhuomatxmvtyg:da5c1923d97d6bbf4f25f0ddc9436826b614f8f515f3f4752370b0cd7946f6d0@ec2-23-21-4-7.compute-1.amazonaws.com:5432/ddigg1cu7s9bnj'
+prod_uri = 'postgres://inflxwwhowsddy:719571319eea9ba99313058b6944d053db23f17f89950a8609da27d8b70f8d35@ec2-52-23-40-80.compute-1.amazonaws.com:5432/dcprc1luuru0ve'
 local_uri = 'postgresql://localhost/orderdata?user=postgres&password=delhivery'
 app.config['SQLALCHEMY_DATABASE_URI'] = prod_uri
 api = Api(app)

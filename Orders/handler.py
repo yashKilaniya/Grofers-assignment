@@ -66,7 +66,6 @@ class ScheduleOrder(Resource):
     """
     def patch(self):
         response = {'success': False, "msg": '', 'data': {}}
-
         try:
             slot1_data = ScheduleOrder.schedule_orders(slot=1,
                                                        allowed_vehicles = {"bike": 3, "scooter": 2})
@@ -99,7 +98,6 @@ class ScheduleOrder(Resource):
     @staticmethod
     def schedule_orders(slot, allowed_vehicles):
         # from Orders import slot1, slot2, slot3, slot4
-
         data = []
         if slot == 4:
             try:
@@ -148,6 +146,7 @@ class ScheduleOrder(Resource):
 
             for order in slot1_orders:
                 for vehicle in Vehicles:
+                    is_scheduled = False
                     if order.weight <= vehicle[1]:
                         if not DATA.get(vehicle[0]):
                             DATA[vehicle[0]] = []
@@ -158,10 +157,13 @@ class ScheduleOrder(Resource):
                         order.is_scheduled = True
                         try:
                             db.session.commit()
+                            is_scheduled = True
                             # order_data['list_order_ids_assigned'].append(order.order_id)
                         except Exception as err:
                             raise Exception("Error occurred while scheduling the orders. ERROR:{}".format(err))
 
+                    if is_scheduled:
+                        break
             # Prepare the response.
             for vehicle, orders in DATA.items():
                 order_data = {
@@ -214,6 +216,7 @@ class ScheduleOrder(Resource):
 
             for order in slot_2_3_orders:
                 for vehicle in Vehicles:
+                    is_scheduled = False
                     if order.weight <= vehicle[1]:
                         if not DATA.get(vehicle[0]):
                             DATA[vehicle[0]] = []
@@ -224,10 +227,11 @@ class ScheduleOrder(Resource):
                         order.is_scheduled = True
                         try:
                             db.session.commit()
+                            is_scheduled = True
                         except Exception as err:
                             raise Exception("Error occurred while scheduling the orders. ERROR:{}".format(err))
-
-
+                    if is_scheduled:
+                        break
             # Prepare the response.
             for vehicle, orders in DATA.items():
                 order_data = {
@@ -238,24 +242,3 @@ class ScheduleOrder(Resource):
                 data.append(order_data)
 
             return data
-
-
-
-
-
-
-        total_amount = get_total_weight_of_slot(slot_4_orders)
-        if total_amount and allowed_vehicles.get('truck'):
-            truck = db.session.query(Vehicle).filter(Vehicle.orders_attached == '{}').filter(
-                Vehicle.vtype == 'truck').first()
-            if truck:
-                allowed_vehicles['truck'] = 0
-                update_vid_on_orders(slot_4_orders, truck.vid, vtype, data)
-                data = update_response(orders)
-            else:
-                print("No orders can be served in slot 4 today.")
-
-        try:
-            slot_4_orders = db.session.query(Order).filter(Order.slot == 4).filter(Order.is_scheduled == 'f').all()
-        except Exception as err:
-            raise Exception("Unable to fetch slot 4 orders dur to error:{}".format(err))

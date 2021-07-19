@@ -18,9 +18,14 @@ is_scheduled<br>
 
 <b>1. Health Check API</b><br>
 <b>Type: GET</b><br>
-<b>Response:</b> <br> 
-```
+<b>Response:</b> <br>
+
+```json
 "Health OK."
+```
+<b>Sample Request:</b> <br>
+```
+curl --location --request GET 'https://grofers-order-app.herokuapp.com/'
 ```
 
 
@@ -41,8 +46,18 @@ is_scheduled<br>
 }
 ```
 
-<b>3. Vehicle Creation API<b>
-<b>Type: POST</b><br>
+<b>Sample Request:</b> <br>
+```
+curl --location --request POST 'https://grofers-order-app.herokuapp.com/order/create' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "weight": 21,
+    "slot": 4
+}'
+```
+
+<b>3. Vehicle Creation API<b> <br>
+<b>Type: POST</b>
 <br>INPUT: </b><br>
 ```json
 {
@@ -58,6 +73,19 @@ is_scheduled<br>
     "success": true
 }
 ```
+<br>
+
+<b>Sample Request:</b> <br>
+```
+curl --location --request POST 'https://grofers-order-app.herokuapp.com/vehicle/create' \
+--header 'Content-Type: application/json' \
+--data-raw '{
+    "name": "YK Logistics",
+    "vehicle_id": "Truck4",
+    "type": "Truck"
+}'
+```
+
 
 <b>4. Order Scheduling API</b><br>
 <b>Type: PATCH</b><br>
@@ -120,11 +148,15 @@ is_scheduled<br>
 }
 ```
 
+<b>Sample Request:</b> <br>
+```
+curl --location --request PATCH 'https://grofers-order-app.herokuapp.com/order/schedule' \
+--data-raw ''
+```
+
 ## Deployment
 **Heroku URL: https://grofers-order-app.herokuapp.com/**
 
-<br>
-<br>
 
 ## Logic for assigning orders:
 **For slot 1 :**
@@ -150,4 +182,4 @@ of the orders in the first slot and will assign the vehicles as follows:<br>
 ```
 
 **For slot 4 :**
-1. For slot4, we only have trucks available so, all the orders within slot4 have to be delivered via Trucks.
+1. For slot4, we only have trucks available so, all the orders within slot4 have to be delivered via Truck.
