@@ -81,10 +81,10 @@ class ScheduleOrder(Resource):
             response['success'] = False
             return Response(json.dumps(response), HTTPStatus.INTERNAL_SERVER_ERROR)
 
-        if not (slot1_data and slot2_data and slot3_data and slot4_data):
-            response['msg'] = "Unable to schedule order due to error:{}".format(msg)
-            response['success'] = False
-            return Response(json.dumps(response), HTTPStatus.INTERNAL_SERVER_ERROR)
+        # if not (slot1_data and slot2_data and slot3_data and slot4_data):
+        #     response['msg'] = "Unable to schedule order due to error:{}".format(msg)
+        #     response['success'] = False
+        #     return Response(json.dumps(response), HTTPStatus.INTERNAL_SERVER_ERROR)
 
         response['msg'] = "Order scheduled successfully."
         response['success'] = True

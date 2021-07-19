@@ -16,7 +16,10 @@ def create_app():
     return flask_app
 
 app = create_app()
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql://localhost/orderdata?user=postgres&password=delhivery'
+
+prod_uri = 'postgres://ynhuomatxmvtyg:da5c1923d97d6bbf4f25f0ddc9436826b614f8f515f3f4752370b0cd7946f6d0@ec2-23-21-4-7.compute-1.amazonaws.com:5432/ddigg1cu7s9bnj'
+local_uri = 'postgresql://localhost/orderdata?user=postgres&password=delhivery'
+app.config['SQLALCHEMY_DATABASE_URI'] = prod_uri
 api = Api(app)
 db = SQLAlchemy(app)
 
